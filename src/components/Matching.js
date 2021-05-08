@@ -38,6 +38,21 @@ export default function Matching({items}) {
         setScore(score);
     }
 
+    function getGrade() {
+        let num = score * 10 || 0;
+        if (num < 60) {
+            return 'F';
+        } else if (num < 70) {
+            return 'D'
+        } else if (num < 80) {
+            return 'C';
+        } else if (num < 90) {
+            return 'B';
+        } else {
+            return 'A'
+        }
+    }
+
     return (
         <MatchingWrapper>
             <ul>
@@ -50,7 +65,7 @@ export default function Matching({items}) {
                     )
                 })}
             </ul>
-            {examSubmitted ? <h1>You scored {score} out of {questions.length}</h1>: null}
+            {examSubmitted ? <h1>You scored {score} out of {questions.length}, Grade {getGrade()}</h1>: null}
 
             <button onClick={submitExam}>Submit Exam</button>
         </MatchingWrapper>
