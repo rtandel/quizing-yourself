@@ -41,6 +41,9 @@ export default function Header() {
         <NavLink activeClassName="selected" to="/quiz">
           Quiz
         </NavLink>
+        <NavLink activeClassName="selected" to="/fillInBlank">
+          Fill
+        </NavLink>
         <NavLink activeClassName="selected" to="/matching">
           Matching
         </NavLink>

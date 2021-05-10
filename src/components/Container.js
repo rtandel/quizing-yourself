@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Home from "./Home";
 import SimpleQuiz from "./SimpleQuiz";
 import Header from './Header';
-import Matching from "./Matching";
-
+import FillInBlankQuiz from "./FillInBlankQuiz";
+import Matching from './Matching';
 
 const ContainerWrapper = styled.div`
   width: 600px;
@@ -25,6 +25,9 @@ export default function Container() {
           </Route>
           <Route path="/quiz">
             <SimpleQuiz />
+          </Route>
+          <Route path="/fillInBlank">
+            <FillInBlankQuiz />
           </Route>
           <Route path="/matching">
             <Matching />

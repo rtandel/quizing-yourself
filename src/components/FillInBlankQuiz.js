@@ -5,15 +5,14 @@ import quotes from "../quotes";
 
 let terms = quotes.quotes;
 let data = [];
-let answerKey = [];
 
 console.log(data);
 
 const MatchingWrapper = styled.div``;
 
-export default function Matching({ items }) {
+export default function FillInBlankQuiz({ items }) {
   const [questions, setQuestions] = useState(new Array(10).fill(""));
-  const [answerChoices, setAnswerChoices] = useState([]);
+  
   const [examStarted, setStartExam] = useState(false);
   const [examSubmitted, setExamSubmitted] = useState(false);
   const [score, setScore] = useState(0);
@@ -26,9 +25,6 @@ export default function Matching({ items }) {
       for (let i = 0; i < num; i++) {
         data.push(terms[Math.floor(Math.random() * terms.length)]);
       }
-      console.log(data);
-      console.log(shuffle(data));
-
       setQuestions(new Array(num).fill(""));
       setStartExam(true);
       return;
@@ -51,26 +47,6 @@ export default function Matching({ items }) {
     }
     setExamSubmitted(true);
     setScore(score);
-  }
-
-  function shuffle(arra1) {
-    var ctr = arra1.length,
-      temp,
-      index;
-
-    // While there are elements in the array
-    while (ctr > 0) {
-      // Pick a random index
-      index = Math.floor(Math.random() * ctr);
-      // Decrease ctr by 1
-      ctr--;
-      // And swap the last element with it
-      temp = arra1[ctr];
-      arra1[ctr] = arra1[index];
-      arra1[index] = temp;
-    }
-    console.log(arra1);
-    return arra1;
   }
 
   function getGrade() {
@@ -96,14 +72,11 @@ export default function Matching({ items }) {
             {data.map((value, key) => {
               return (
                 <li key={key}>
+                  <input type="text" onChange={setAnswer} id={key} />
                   <p>{value.quote} </p>
                 </li>
               );
             })}
-          </ul>
-          <ul>
-            <input type="text" onChange={setAnswer} />
-            {<p></p>}
           </ul>
           {examSubmitted ? (
             <h1>
