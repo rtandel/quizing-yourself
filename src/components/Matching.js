@@ -7,8 +7,6 @@ let terms = quotes.quotes;
 let data = [];
 let answerKey = [];
 
-console.log(data);
-
 const MatchingWrapper = styled.div``;
 
 export default function Matching({ items }) {
@@ -26,8 +24,8 @@ export default function Matching({ items }) {
       for (let i = 0; i < num; i++) {
         data.push(terms[Math.floor(Math.random() * terms.length)]);
       }
-      console.log(data);
-      console.log(shuffle(data));
+
+      generateAnswers(num);
 
       setQuestions(new Array(num).fill(""));
       setStartExam(true);
@@ -42,6 +40,30 @@ export default function Matching({ items }) {
     setQuestions([...array]);
   }
 
+  function generateAnswers(num) {
+    var arr = new Array(num).fill("");
+    var counter = 0;
+    while (arr.includes("")) {
+      var r = Math.floor(Math.random() * num) ;
+      arr[r] = r
+      console.log(arr);
+      if (counter > 20) {
+        break;
+      }
+    }
+    console.log(arr)
+
+    var tmp, current, top = arr.length;
+  if(top) while(--top) {
+    current = Math.floor(Math.random() * (top + 1));
+    tmp = arr[current];
+    arr[current] = arr[top];
+    arr[top] = tmp;
+  }
+    console.log(arr);
+    setAnswerChoices(arr);
+  }
+
   function submitExam() {
     let score = 0;
     for (let i = 0; i < questions.length; i++) {
@@ -51,26 +73,6 @@ export default function Matching({ items }) {
     }
     setExamSubmitted(true);
     setScore(score);
-  }
-
-  function shuffle(arra1) {
-    var ctr = arra1.length,
-      temp,
-      index;
-
-    // While there are elements in the array
-    while (ctr > 0) {
-      // Pick a random index
-      index = Math.floor(Math.random() * ctr);
-      // Decrease ctr by 1
-      ctr--;
-      // And swap the last element with it
-      temp = arra1[ctr];
-      arra1[ctr] = arra1[index];
-      arra1[index] = temp;
-    }
-    console.log(arra1);
-    return arra1;
   }
 
   function getGrade() {
@@ -103,7 +105,14 @@ export default function Matching({ items }) {
           </ul>
           <ul>
             <input type="text" onChange={setAnswer} />
-            {<p></p>}
+            {answerChoices.map((value, key) => {
+              console.log(data);
+              return (
+                <li key={key}>
+                  <p>{data[value].author} </p>
+                </li>
+              );
+            })}
           </ul>
           {examSubmitted ? (
             <h1>
