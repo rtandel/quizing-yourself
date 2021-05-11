@@ -3,6 +3,12 @@ import styled from "styled-components";
 
 import quotes from "../quotes";
 
+const QuizWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  
+`;
+
 let terms = quotes.quotes;
 let data = [];
 let answerKey = [];
@@ -10,24 +16,25 @@ let answerKey = [];
 const MatchingWrapper = styled.div``;
 
 export default function Matching({ items }) {
-  const [questions, setQuestions] = useState(new Array(10).fill(""));
+  const [questions, setQuestions] = useState([]);
   const [answerChoices, setAnswerChoices] = useState([]);
   const [examStarted, setStartExam] = useState(false);
+  const [answersEntered, setAnswersEntered] = useState();
   const [examSubmitted, setExamSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const ref = useRef();
 
   function setupQuiz() {
     let num = Number.parseInt(ref.current.value);
-
+    let arr = []
     if (!isNaN(num)) {
       for (let i = 0; i < num; i++) {
-        data.push(terms[Math.floor(Math.random() * terms.length)]);
+        arr.push(terms[Math.floor(Math.random() * terms.length)]);
       }
 
       generateAnswers(num);
-
-      setQuestions(new Array(num).fill(""));
+      setAnswersEntered(new Array(num).fill(""))
+      setQuestions([...arr]);
       setStartExam(true);
       return;
     }
@@ -35,40 +42,51 @@ export default function Matching({ items }) {
   }
 
   function setAnswer(e) {
-    let array = [...questions];
-    array[e.target.id] = e.target.value;
-    setQuestions([...array]);
+    let array = [...answersEntered];
+    let num = Number.parseInt(e.target.value);
+    if (!isNaN(num)){
+      array[e.target.id] = e.target.value;
+      setAnswersEntered([...array]);
+      console.log(answersEntered);
+    } else {
+      e.target.value ="";
+    }
   }
 
   function generateAnswers(num) {
     var arr = new Array(num).fill("");
     var counter = 0;
     while (arr.includes("")) {
-      var r = Math.floor(Math.random() * num) ;
-      arr[r] = r
-      console.log(arr);
+      var r = Math.floor(Math.random() * num);
+      arr[r] = r;
       if (counter > 20) {
         break;
       }
     }
-    console.log(arr)
 
-    var tmp, current, top = arr.length;
-  if(top) while(--top) {
-    current = Math.floor(Math.random() * (top + 1));
-    tmp = arr[current];
-    arr[current] = arr[top];
-    arr[top] = tmp;
-  }
-    console.log(arr);
+    var tmp,
+      current,
+      top = arr.length;
+    if (top)
+      while (--top) {
+        current = Math.floor(Math.random() * (top + 1));
+        tmp = arr[current];
+        arr[current] = arr[top];
+        arr[top] = tmp;
+      }
     setAnswerChoices(arr);
   }
 
   function submitExam() {
     let score = 0;
-    for (let i = 0; i < questions.length; i++) {
-      if (questions[i].toLowerCase() === data[i].author.toLowerCase()) {
-        score++;
+    for (let i = 0; i < answersEntered.length; i++) {
+      if (answersEntered[i] > questions.length || answersEntered[i] < 1) {
+        continue;
+      }
+      if (questions[answersEntered[i] - 1]) {
+        if (questions[answersEntered[i] - 1].quote == questions[i].quote) {
+          score++;
+        } 
       }
     }
     setExamSubmitted(true);
@@ -76,7 +94,7 @@ export default function Matching({ items }) {
   }
 
   function getGrade() {
-    let num = score * 10 || 0;
+    let num = score / questions.length * 100 || 0;
     if (num < 60) {
       return "F";
     } else if (num < 70) {
@@ -92,28 +110,31 @@ export default function Matching({ items }) {
 
   return (
     <MatchingWrapper>
+      <h2>Match each quote to their authors. Type the quote's number in the box.</h2>
       {examStarted ? (
         <div>
-          <ul>
-            {data.map((value, key) => {
-              return (
-                <li key={key}>
-                  <p>{value.quote} </p>
-                </li>
-              );
-            })}
-          </ul>
-          <ul>
-            <input type="text" onChange={setAnswer} />
-            {answerChoices.map((value, key) => {
-              console.log(data);
-              return (
-                <li key={key}>
-                  <p>{data[value].author} </p>
-                </li>
-              );
-            })}
-          </ul>
+          <QuizWrapper className="quiz">
+            <ol>
+              {questions.map((value, key) => {
+                return (
+                  <li  key={key}>
+                    <p>{value.quote} </p>
+                  </li>
+                );
+              })}
+            </ol>
+            <ol>
+              {answerChoices.map((value, key) => {
+                console.log(questions);
+                return (
+                  <li  key={key}>
+                    <p>{questions[value].author} </p>
+                    <input type="text" onChange={setAnswer} id={key}/>
+                  </li>
+                );
+              })}
+            </ol>
+          </QuizWrapper>
           {examSubmitted ? (
             <h1>
               You scored {score} out of {questions.length}, Grade {getGrade()}
