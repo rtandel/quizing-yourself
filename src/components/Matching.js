@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-
+import QuestionList from './QuestionList';
 import quotes from "../quotes";
+import QuizStart from "./QuizStart";
 
 const QuizWrapper = styled.div`
   display: flex;
@@ -23,8 +24,8 @@ export default function Matching({ items }) {
   const [score, setScore] = useState(0);
   const ref = useRef();
 
-  function setupQuiz() {
-    let num = Number.parseInt(ref.current.value);
+  function setupQuiz(val) {
+    let num = Number.parseInt(val);
     let arr = [];
     if (!isNaN(num)) {
       for (let i = 0; i < num; i++) {
@@ -115,16 +116,7 @@ export default function Matching({ items }) {
       {examStarted ? (
         <div>
           <QuizWrapper className="quiz">
-            <ol>
-              {questions.map((value, key) => {
-
-                return (
-                  <li key={key}>
-                    <p>{value.quote} </p>
-                  </li>
-                );
-              })}
-            </ol>
+            <QuestionList list={questions} />
             <ol>
               {answerChoices.map((value, key) => {
                 return (
@@ -153,11 +145,7 @@ export default function Matching({ items }) {
           </button>
         </div>
       ) : (
-        <div>
-          <h3>How many questions?</h3>
-          <input type="text" ref={ref} />
-          <button onClick={setupQuiz}>Setup Exam</button>
-        </div>
+        <QuizStart setupQuiz={setupQuiz}  />
       )}
     </MatchingWrapper>
   );
