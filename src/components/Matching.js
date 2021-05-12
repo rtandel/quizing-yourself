@@ -6,7 +6,6 @@ import quotes from "../quotes";
 const QuizWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  
 `;
 
 let terms = quotes.quotes;
@@ -26,14 +25,14 @@ export default function Matching({ items }) {
 
   function setupQuiz() {
     let num = Number.parseInt(ref.current.value);
-    let arr = []
+    let arr = [];
     if (!isNaN(num)) {
       for (let i = 0; i < num; i++) {
         arr.push(terms[Math.floor(Math.random() * terms.length)]);
       }
 
       generateAnswers(num);
-      setAnswersEntered(new Array(num).fill(""))
+      setAnswersEntered(new Array(num).fill(""));
       setQuestions([...arr]);
       setStartExam(true);
       return;
@@ -44,12 +43,12 @@ export default function Matching({ items }) {
   function setAnswer(e) {
     let array = [...answersEntered];
     let num = Number.parseInt(e.target.value);
-    if (!isNaN(num)){
-      array[e.target.id] = e.target.value;
+    if (!isNaN(num)) {
+      array[e.target.id] = e.target.value - 1;
       setAnswersEntered([...array]);
       console.log(answersEntered);
     } else {
-      e.target.value ="";
+      e.target.value = "";
     }
   }
 
@@ -74,27 +73,27 @@ export default function Matching({ items }) {
         arr[current] = arr[top];
         arr[top] = tmp;
       }
+    console.log(arr);
     setAnswerChoices(arr);
   }
 
   function submitExam() {
     let score = 0;
     for (let i = 0; i < answersEntered.length; i++) {
-      if (answersEntered[i] > questions.length || answersEntered[i] < 1) {
+      if (answersEntered[i] > questions.length || answersEntered[i] < 0) {
         continue;
       }
-      if (questions[answersEntered[i] - 1]) {
-        if (questions[answersEntered[i] - 1].quote == questions[i].quote) {
+        if (questions[answersEntered[i]].quote == questions[answerChoices[i]].quote) {
           score++;
-        } 
-      }
+        }
+      
     }
     setExamSubmitted(true);
     setScore(score);
   }
 
   function getGrade() {
-    let num = score / questions.length * 100 || 0;
+    let num = score * 10 || 0;
     if (num < 60) {
       return "F";
     } else if (num < 70) {
@@ -110,14 +109,17 @@ export default function Matching({ items }) {
 
   return (
     <MatchingWrapper>
-      <h2>Match each quote to their authors. Type the quote's number in the box.</h2>
+      <h2>
+        Match each quote to their authors. Type the quote's number in the box.
+      </h2>
       {examStarted ? (
         <div>
           <QuizWrapper className="quiz">
             <ol>
               {questions.map((value, key) => {
+
                 return (
-                  <li  key={key}>
+                  <li key={key}>
                     <p>{value.quote} </p>
                   </li>
                 );
@@ -125,11 +127,10 @@ export default function Matching({ items }) {
             </ol>
             <ol>
               {answerChoices.map((value, key) => {
-                console.log(questions);
                 return (
-                  <li  key={key}>
+                  <li key={key}>
                     <p>{questions[value].author} </p>
-                    <input type="text" onChange={setAnswer} id={key}/>
+                    <input type="text" onChange={setAnswer} id={key} />
                   </li>
                 );
               })}
