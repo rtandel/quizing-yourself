@@ -72,8 +72,8 @@ export default function FillInBlankQuiz({ items }) {
             {data.map((value, key) => {
               return (
                 <li key={key}>
-                  <input type="text" onChange={setAnswer} id={key} />
                   <p>{value.quote} </p>
+                  <input type="text" onChange={setAnswer} id={key} />
                 </li>
               );
             })}
