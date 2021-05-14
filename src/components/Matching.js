@@ -81,7 +81,7 @@ export default function Matching({ items }) {
   function submitExam() {
     let score = 0;
     for (let i = 0; i < answersEntered.length; i++) {
-      if (answersEntered[i] > questions.length || answersEntered[i] < 0) {
+      if (answersEntered[i] > questions.length || answersEntered[i] < 0 || !questions[answersEntered[i]]) {
         continue;
       }
         if (questions[answersEntered[i]].quote == questions[answerChoices[i]].quote) {
@@ -94,7 +94,8 @@ export default function Matching({ items }) {
   }
 
   function getGrade() {
-    let num = score * 10 || 0;
+    let num = score / questions.length * 100 || 0;
+    console.log(num);
     if (num < 60) {
       return "F";
     } else if (num < 70) {

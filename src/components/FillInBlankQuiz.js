@@ -6,8 +6,6 @@ import quotes from "../quotes";
 let terms = quotes.quotes;
 let data = [];
 
-console.log(data);
-
 const MatchingWrapper = styled.div``;
 
 export default function FillInBlankQuiz({ items }) {
@@ -50,7 +48,8 @@ export default function FillInBlankQuiz({ items }) {
   }
 
   function getGrade() {
-    let num = score * 10 || 0;
+    let num = score / questions.length * 100 || 0;
+    console.log(num);
     if (num < 60) {
       return "F";
     } else if (num < 70) {
@@ -70,6 +69,7 @@ export default function FillInBlankQuiz({ items }) {
         <div>
           <ul>
             {data.map((value, key) => {
+              console.log(data);
               return (
                 <li key={key}>
                   <p>{value.quote} </p>
