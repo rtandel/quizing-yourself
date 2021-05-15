@@ -6,9 +6,9 @@ import SimpleQuiz from "./SimpleQuiz";
 import Header from './Header';
 import FillInBlankQuiz from "./FillInBlankQuiz";
 import Matching from './Matching';
+import CrosswordPuzzle from "./crossword/CrosswordPuzzle";
 
 const ContainerWrapper = styled.div`
-  width: 600px;
   height: 100vh;
   margin: 0 auto;
 `;
@@ -31,6 +31,9 @@ export default function Container() {
           </Route>
           <Route path="/matching">
             <Matching />
+          </Route>
+          <Route path="/crossword">
+            <CrosswordPuzzle />
           </Route>
         </Switch>
       </Router>

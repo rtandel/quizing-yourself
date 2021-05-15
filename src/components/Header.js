@@ -47,6 +47,9 @@ export default function Header() {
         <NavLink activeClassName="selected" to="/matching">
           Matching
         </NavLink>
+        <NavLink activeClassName="selected" to="/crossword">
+          Crossword
+        </NavLink>
       </div>
     </HeaderWrapper>
   );

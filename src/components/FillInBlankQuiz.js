@@ -17,18 +17,16 @@ export default function FillInBlankQuiz({ items }) {
   const [score, setScore] = useState(0);
   const ref = useRef();
 
-  function setupQuiz() {
-    let num = Number.parseInt(ref.current.value);
-
+  function setupQuiz(num) {
     if (!isNaN(num)) {
       for (let i = 0; i < num; i++) {
         data.push(terms[Math.floor(Math.random() * terms.length)]);
       }
+      console.log(data);
       setQuestions(new Array(num).fill(""));
       setStartExam(true);
       return;
     }
-    ref.current.value = "You did not enter a number";
   }
 
   function setAnswer(e) {
@@ -70,7 +68,6 @@ export default function FillInBlankQuiz({ items }) {
         <div>
           <ul>
             {data.map((value, key) => {
-              console.log(data);
               return (
                 <li key={key}>
                   <p>{value.quote} </p>

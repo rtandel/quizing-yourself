@@ -1,19 +1,28 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import QuestionList from './QuestionList';
+import QuestionList from "./QuestionList";
 import quotes from "../quotes";
 import QuizStart from "./QuizStart";
 
-const QuizWrapper = styled.div`
+const QuizWrapper = styled.ol`
+  padding: 0;
+  list-style-type: none;
+`;
+
+const QuestionWrapper = styled.li`
+  width: 100%;
+  align-items: center;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `;
 
 let terms = quotes.quotes;
-let data = [];
-let answerKey = [];
 
-const MatchingWrapper = styled.div``;
+const MatchingWrapper = styled.div`
+  width: 95%;
+  margin: 0 auto;
+`;
 
 export default function Matching({ items }) {
   const [questions, setQuestions] = useState([]);
@@ -22,10 +31,8 @@ export default function Matching({ items }) {
   const [answersEntered, setAnswersEntered] = useState();
   const [examSubmitted, setExamSubmitted] = useState(false);
   const [score, setScore] = useState(0);
-  const ref = useRef();
 
-  function setupQuiz(val) {
-    let num = Number.parseInt(val);
+  function setupQuiz(num) {
     let arr = [];
     if (!isNaN(num)) {
       for (let i = 0; i < num; i++) {
@@ -38,7 +45,6 @@ export default function Matching({ items }) {
       setStartExam(true);
       return;
     }
-    ref.current.value = "You did not enter a number";
   }
 
   function setAnswer(e) {
@@ -81,20 +87,25 @@ export default function Matching({ items }) {
   function submitExam() {
     let score = 0;
     for (let i = 0; i < answersEntered.length; i++) {
-      if (answersEntered[i] > questions.length || answersEntered[i] < 0 || !questions[answersEntered[i]]) {
+      if (
+        answersEntered[i] > questions.length ||
+        answersEntered[i] < 0 ||
+        !questions[answersEntered[i]]
+      ) {
         continue;
       }
-        if (questions[answersEntered[i]].quote == questions[answerChoices[i]].quote) {
-          score++;
-        }
-      
+      if (
+        questions[answersEntered[i]].quote == questions[answerChoices[i]].quote
+      ) {
+        score++;
+      }
     }
     setExamSubmitted(true);
     setScore(score);
   }
 
   function getGrade() {
-    let num = score / questions.length * 100 || 0;
+    let num = (score / questions.length) * 100 || 0;
     console.log(num);
     if (num < 60) {
       return "F";
@@ -116,19 +127,25 @@ export default function Matching({ items }) {
       </h2>
       {examStarted ? (
         <div>
-          <QuizWrapper className="quiz">
-            <QuestionList list={questions} />
-            <ol>
+          <div className="quiz">
+            <QuizWrapper>
               {answerChoices.map((value, key) => {
                 return (
-                  <li key={key}>
-                    <p>{questions[value].author} </p>
-                    <input type="text" onChange={setAnswer} id={key} />
-                  </li>
+                  <QuestionWrapper key={key}>
+                    <div>
+                      <p>
+                        {key + 1}. {questions[value].quote}{" "}
+                      </p>
+                    </div>
+                    <div>
+                      <p>{questions[value].author} </p>
+                      <input type="text" onChange={setAnswer} id={key} />
+                    </div>
+                  </QuestionWrapper>
                 );
               })}
-            </ol>
-          </QuizWrapper>
+            </QuizWrapper>
+          </div>
           {examSubmitted ? (
             <h1>
               You scored {score} out of {questions.length}, Grade {getGrade()}
@@ -146,7 +163,7 @@ export default function Matching({ items }) {
           </button>
         </div>
       ) : (
-        <QuizStart setupQuiz={setupQuiz}  />
+        <QuizStart setupQuiz={setupQuiz} />
       )}
     </MatchingWrapper>
   );
