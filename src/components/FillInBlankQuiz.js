@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
 import quotes from "../quotes";
+import QuizStart from "./QuizStart";
 
 let terms = quotes.quotes;
 let data = [];
@@ -95,11 +96,7 @@ export default function FillInBlankQuiz({ items }) {
           </button>
         </div>
       ) : (
-        <div>
-          <h3>How many questions?</h3>
-          <input type="text" ref={ref} />
-          <button onClick={setupQuiz}>Setup Exam</button>
-        </div>
+        <QuizStart setupQuiz={setupQuiz} />
       )}
     </MatchingWrapper>
   );
