@@ -79,7 +79,7 @@ export default function SimpleQuiz() {
 
   return (
     <QuizWrapper>
-      <h1>Simple</h1>
+      <h1>Note Cards</h1>
       <div className="flip-card">
         <div className="flip-card-inner">
           {console.log(questions[selectedQuestion])}

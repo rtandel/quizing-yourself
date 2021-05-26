@@ -7,7 +7,11 @@ import QuizStart from "./QuizStart";
 let terms = quotes.quotes;
 let data = [];
 
-const MatchingWrapper = styled.div``;
+const MatchingWrapper = styled.div`
+  margin: 0 auto;
+  display: block;
+  width: 50%:
+`;
 
 export default function FillInBlankQuiz({ items }) {
   const [questions, setQuestions] = useState(new Array(10).fill(""));
@@ -85,11 +89,16 @@ export default function FillInBlankQuiz({ items }) {
           <button onClick={submitExam}>Submit Exam</button>
           <button
             onClick={() => {
+              let confirm = window.confirm("Are you sure you'd like to reset?");
+              if (confirm) {
+              } else {
+                return
+              }
               setExamSubmitted(false);
               setStartExam(false);
             }}
           >
-            Setup Exam
+            Reset Exam
           </button>
         </div>
       ) : (

@@ -39,7 +39,7 @@ export default function Header() {
           Home
         </NavLink>{" "}
         <NavLink activeClassName="selected" to="/quiz">
-          Quiz
+          Flash Cards
         </NavLink>
         <NavLink activeClassName="selected" to="/fillInBlank">
           Fill

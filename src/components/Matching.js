@@ -155,11 +155,16 @@ export default function Matching({ items }) {
           <button onClick={submitExam}>Submit Exam</button>
           <button
             onClick={() => {
+              let confirm = window.confirm("Are you sure you'd like to reset?");
+              if (confirm) {
+              } else {
+                return
+              }
               setExamSubmitted(false);
               setStartExam(false);
             }}
           >
-            Setup Exam
+            Reset Exam
           </button>
         </div>
       ) : (
