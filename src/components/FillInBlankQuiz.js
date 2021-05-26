@@ -26,7 +26,6 @@ export default function FillInBlankQuiz({ items }) {
       for (let i = 0; i < num; i++) {
         data.push(terms[Math.floor(Math.random() * terms.length)]);
       }
-      console.log(data);
       setQuestions(new Array(num).fill(""));
       setStartExam(true);
       return;
@@ -52,7 +51,6 @@ export default function FillInBlankQuiz({ items }) {
 
   function getGrade() {
     let num = score / questions.length * 100 || 0;
-    console.log(num);
     if (num < 60) {
       return "F";
     } else if (num < 70) {

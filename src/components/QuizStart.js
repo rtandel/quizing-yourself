@@ -5,7 +5,6 @@ export default function QuizStart({ setupQuiz }) {
 
     function change(val) {
       ref.current.value = val.target.value;
-      console.log(ref.current.value);
     }
 
     function start() {

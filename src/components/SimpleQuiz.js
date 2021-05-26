@@ -82,7 +82,6 @@ export default function SimpleQuiz() {
       <h1>Note Cards</h1>
       <div className="flip-card">
         <div className="flip-card-inner">
-          {console.log(questions[selectedQuestion])}
           <div className="flip-card-front">
             <p>{questions[selectedQuestion].quote}</p>
           </div>

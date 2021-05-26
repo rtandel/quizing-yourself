@@ -53,7 +53,6 @@ export default function Matching({ items }) {
     if (!isNaN(num)) {
       array[e.target.id] = e.target.value - 1;
       setAnswersEntered([...array]);
-      console.log(answersEntered);
     } else {
       e.target.value = "";
     }
@@ -80,7 +79,6 @@ export default function Matching({ items }) {
         arr[current] = arr[top];
         arr[top] = tmp;
       }
-    console.log(arr);
     setAnswerChoices(arr);
   }
 
@@ -106,7 +104,6 @@ export default function Matching({ items }) {
 
   function getGrade() {
     let num = (score / questions.length) * 100 || 0;
-    console.log(num);
     if (num < 60) {
       return "F";
     } else if (num < 70) {
