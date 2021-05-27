@@ -17,6 +17,71 @@ const QuestionWrapper = styled.li`
   justify-content: space-between;
 `;
 
+
+let questionsList = [
+  {
+    question: 'How many states are there in the US?',
+    answer: 50
+  },
+  {
+    question: "Who was the first president?",
+    answer: 'George Washington' 
+  },
+  {
+    question: 'How long is a marathon in miles? ',
+    answer: '26.2 miles'
+  },
+  {
+    question: 'How long is a marathon in kilometers? ',
+    answer: '42km'
+  },
+  {
+    question: 'How many continents are there? ',
+    answer: '7'
+  },
+  {
+    question: 'How many Oceans? ',
+    answer: '4'
+  }
+  ,{
+    question: 'How many people live in New York? ',
+    answer: '10 million'
+  },
+  {
+    question: 'Which iPhone removed the headphone jack? ',
+    answer: 'The iPhone 7'
+  },
+  {
+    question: 'What does the break statement in a while/for loop do? ',
+    answer: 'Exits the Loop'
+  },
+  {
+    question: 'Which metro stop is closest to Georgetown?',
+    answer: 'Rosslyn'
+  },
+  {
+    question: 'What is my dogs name? ',
+    answer: 'Rory'
+  },
+  {
+    question: 'What is my cats name? ',
+    answer: 'Binx'
+  },
+  {
+    question: 'How long is the W&OD trail? ',
+    answer: '45 miles'
+  },
+  {
+    question: 'Where does the W&OD trail begin? ',
+    answer: 'Percival'
+  },
+  {
+    question: 'Where does the W&OD trail end?',
+    answer: 'Arlington'
+  }
+]
+
+
 let terms = quotes.quotes;
 
 const MatchingWrapper = styled.div`
@@ -36,8 +101,14 @@ export default function Matching({ items }) {
     let arr = [];
     if (!isNaN(num)) {
       for (let i = 0; i < num; i++) {
-        arr.push(terms[Math.floor(Math.random() * terms.length)]);
-      }
+        let item = questionsList[Math.floor(Math.random() * questionsList.length)]
+        let counter = 0;
+        while (arr.indexOf(item) > -1 && counter < questionsList.length) {
+          item = questionsList[Math.floor(Math.random() * questionsList.length)]
+          counter++;
+        }
+        arr.push(item);
+      }  
 
       generateAnswers(num);
       setAnswersEntered(new Array(num).fill(""));
@@ -79,6 +150,7 @@ export default function Matching({ items }) {
         arr[current] = arr[top];
         arr[top] = tmp;
       }
+      console.log(arr);
     setAnswerChoices(arr);
   }
 
@@ -93,11 +165,12 @@ export default function Matching({ items }) {
         continue;
       }
       if (
-        questions[answersEntered[i]].quote == questions[answerChoices[i]].quote
+        questions[answersEntered[i]].answer == questions[answerChoices[i]].answer
       ) {
         score++;
       }
     }
+
     setExamSubmitted(true);
     setScore(score);
   }
@@ -127,15 +200,16 @@ export default function Matching({ items }) {
           <div className="quiz">
             <QuizWrapper>
               {answerChoices.map((value, key) => {
+                
                 return (
                   <QuestionWrapper key={key}>
                     <div>
                       <p>
-                        {key + 1}. {questions[value].quote}{" "}
+                        {key + 1}. {questions[value].question}{" "}
                       </p>
                     </div>
                     <div>
-                      <p>{questions[value].author} </p>
+                      <p>{questions[answerChoices[value]].answer} </p>
                       <input type="text" onChange={setAnswer} id={key} />
                     </div>
                   </QuestionWrapper>
